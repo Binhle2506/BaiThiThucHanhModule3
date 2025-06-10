@@ -17,7 +17,7 @@ public class Product {
         this.productInventory = productInventory;
     }
 
-    // Getter và Setter
+
     public int getProductID() { return productID; }
     public void setProductID(int productID) { this.productID = productID; }
 
