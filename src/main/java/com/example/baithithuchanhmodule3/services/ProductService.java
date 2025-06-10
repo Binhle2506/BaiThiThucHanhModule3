@@ -89,5 +89,9 @@ public class ProductService {
     public static List<Product> searchProducts(String keyword) {
         return ProductModel.search(keyword);
     }
+    public static List<Product> getOrderedProducts(String fromDate, String toDate) {
+        return ProductModel.getOrderedProducts(fromDate, toDate);
+    }
+
 
 }

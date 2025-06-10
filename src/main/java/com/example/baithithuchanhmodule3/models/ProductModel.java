@@ -105,5 +105,36 @@ public class ProductModel {
         }
         return products;
     }
+    public static List<Product> getOrderedProducts(String fromDate, String toDate) {
+        List<Product> products = new ArrayList<>();
+        String sql = "SELECT p.productID, p.productName, p.productPrice, p.productSale, p.productInventory, COUNT(o.cusOrderID) AS orderCount, SUM(p.productPrice) AS totalRevenue " +
+                "FROM product p " +
+                "JOIN cusOrder o ON p.productID = o.cusID " +
+                "WHERE o.orderDate BETWEEN ? AND ? " +
+                "GROUP BY p.productID, p.productName, p.productPrice, p.productSale, p.productInventory " +
+                "ORDER BY orderCount DESC";
+
+        try {
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, fromDate);
+            stmt.setString(2, toDate);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Product product = new Product(
+                        rs.getInt("productID"),
+                        rs.getString("productName"),
+                        rs.getInt("productPrice"),
+                        rs.getInt("productSale"),
+                        rs.getInt("productInventory")
+                );
+                products.add(product);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return products;
+    }
+
 
 }

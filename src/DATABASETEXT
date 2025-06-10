@@ -1,0 +1,88 @@
+use codegym_ecommerce;
+CREATE TABLE product (
+    productID INT PRIMARY KEY AUTO_INCREMENT,
+    productName VARCHAR(50) NOT NULL,
+    productPrice INT NOT NULL,
+    productSale INT DEFAULT 0,
+    productInventory INT NOT NULL
+);
+CREATE TABLE employee (
+    empID INT PRIMARY KEY AUTO_INCREMENT,
+    empName VARCHAR(50) NOT NULL,
+    empBirthOfDate DATE NOT NULL,
+    empAddress VARCHAR(100) NOT NULL
+);
+CREATE TABLE customer (
+    cusID INT PRIMARY KEY AUTO_INCREMENT,
+    cusName VARCHAR(50) NOT NULL,
+    cusBirthOfDate DATE NOT NULL,
+    cusPhoneNumber VARCHAR(20) NOT NULL,
+    cusAddress VARCHAR(100) NOT NULL,
+    cusEmail VARCHAR(50) NOT NULL
+);
+CREATE TABLE cusOrder (
+    cusOrderID INT PRIMARY KEY AUTO_INCREMENT,
+    cusID INT NOT NULL,
+    empID INT NOT NULL,
+    orderDate DATE NOT NULL,
+    deliveryDate DATE,
+    deliveryAddress VARCHAR(100),
+    FOREIGN KEY (cusID) REFERENCES customer(cusID),
+    FOREIGN KEY (empID) REFERENCES employee(empID)
+);
+CREATE TABLE order_details (
+    orderDetailID INT PRIMARY KEY AUTO_INCREMENT,
+    cusOrderID INT NOT NULL,
+    productID INT NOT NULL,
+    quantity INT NOT NULL,
+    totalPrice INT NOT NULL,
+    FOREIGN KEY (cusOrderID) REFERENCES cusOrder(cusOrderID),
+    FOREIGN KEY (productID) REFERENCES product(productID)
+);
+INSERT INTO product (productName, productPrice, productSale, productInventory) VALUES
+('Laptop Dell XPS 15', 2500, 10, 50),
+('Laptop MacBook Pro 14', 2800, 15, 40),
+('Điện thoại iPhone 15 Pro', 1200, 5, 60),
+('Điện thoại Samsung Galaxy S23', 1100, 10, 70),
+('Máy tính bảng iPad Air', 900, 5, 45),
+('Tai nghe Sony WH-1000XM5', 400, 10, 80),
+('Tai nghe Apple AirPods Pro', 250, 15, 90),
+('Bàn phím cơ Razer BlackWidow', 150, 5, 100),
+('Chuột Logitech MX Master 3', 130, 10, 75),
+('Màn hình LG UltraGear 27"', 450, 20, 30);
+INSERT INTO employee (empName, empBirthOfDate, empAddress) VALUES
+('Nguyễn Văn A', '1990-05-10', 'Hà Nội'),
+('Trần Thị B', '1985-08-15', 'Hồ Chí Minh'),
+('Lê Văn C', '1995-02-20', 'Đà Nẵng'),
+('Phạm Thị D', '1988-11-25', 'Hải Phòng'),
+('Hoàng Văn E', '1992-07-12', 'Huế'),
+('Bùi Thị F', '1983-11-30', 'Cần Thơ'),
+('Đặng Văn G', '1997-03-25', 'Quảng Ninh'),
+('Vũ Thị H', '1991-09-18', 'Nghệ An'),
+('Trương Văn I', '1986-06-05', 'Bắc Giang'),
+('Đỗ Thị J', '1994-12-22', 'Hà Nam');
+INSERT INTO customer (cusName, cusBirthOfDate, cusPhoneNumber, cusAddress, cusEmail) VALUES
+('Nguyễn Văn K', '1990-02-15', '0987654321', 'Hà Nội', 'nguyenvank@email.com'),
+('Trần Thị L', '1987-06-10', '0976543210', 'Hồ Chí Minh', 'tranthil@email.com'),
+('Lê Văn M', '1993-12-25', '0965432109', 'Đà Nẵng', 'levanm@email.com'),
+('Phạm Thị N', '1988-08-07', '0954321098', 'Hải Phòng', 'phamthin@email.com'),
+('Hoàng Văn O', '1995-09-30', '0943210987', 'Huế', 'hoangvano@email.com'),
+('Bùi Thị P', '1982-11-21', '0932109876', 'Cần Thơ', 'buithip@email.com'),
+('Đặng Văn Q', '1999-04-17', '0921098765', 'Quảng Ninh', 'dangvanq@email.com'),
+('Vũ Thị R', '1991-07-14', '0910987654', 'Nghệ An', 'vuthir@email.com'),
+('Trương Văn S', '1986-05-23', '0909876543', 'Bắc Giang', 'truongvans@email.com'),
+('Đỗ Thị T', '1994-03-19', '0898765432', 'Hà Nam', 'dothit@email.com');
+INSERT INTO cusOrder (cusID, empID, orderDate, deliveryDate, deliveryAddress) VALUES
+(1, 1, '2025-06-01', '2025-06-05', 'Hà Nội'),
+(2, 2, '2025-06-02', '2025-06-06', 'Hồ Chí Minh'),
+(3, 3, '2025-06-03', '2025-06-07', 'Đà Nẵng'),
+(4, 4, '2025-06-04', '2025-06-08', 'Hải Phòng'),
+(5, 5, '2025-06-05', '2025-06-09', 'Huế'),
+(6, 6, '2025-06-06', '2025-06-10', 'Cần Thơ');
+INSERT INTO order_details (cusOrderID, productID, quantity, totalPrice) VALUES
+(1, 3, 2, 2400),
+(2, 5, 1, 900),
+(3, 10, 4, 1800),
+(4, 7, 3, 750),
+(5, 2, 2, 5600),
+(6, 8, 1, 150);

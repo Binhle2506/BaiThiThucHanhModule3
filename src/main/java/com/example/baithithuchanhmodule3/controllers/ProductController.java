@@ -49,6 +49,13 @@ public class ProductController extends BaseController {
                 req.setAttribute("productList", searchResults);
                 renderView("/views/productList.jsp", req, resp);
                 break;
+            case "/orders":
+                String fromDate = req.getParameter("fromDate");
+                String toDate = req.getParameter("toDate");
+                List<Product> orderedProducts = ProductService.getOrderedProducts(fromDate, toDate);
+                req.setAttribute("productList", orderedProducts);
+                renderView("/views/productList.jsp", req, resp);
+                break;
 
             default:
                 resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Không tìm thấy đường dẫn yêu cầu.");
